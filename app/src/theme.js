@@ -134,6 +134,16 @@ export const theme = createMuiTheme({
                   transform: 'rotate(-90deg)',
                     marginRight: '13px'
                 },
+                '&.outlined': {
+                    backgroundColor: palette.primary.light,
+                    color: palette.primary.main,
+                    textTransform: 'none',
+                    margin: '16px 16px 0 0',
+                    '&:hover': {
+                        color: '#fff',
+                        backgroundColor: palette.primary.dark
+                    }
+                },
                 '&.danger': {
                     backgroundColor: palette.error.light,
                     color: palette.error.dark,

@@ -49,13 +49,16 @@ const initState = [
 
 export default function TicketForm({}) {
 
+    const [step, setStep] = useState(1);
     const [fields, setFields] = useState(initState);
+    const [types, setTypes] = useState([]);
 
     useEffect(() => {
         fetch(process.env.REACT_APP_API_URL+"/tickets/dictionaries")
             .then(res => res.json())
             .then(
                 (result) => {
+                    setTypes(result.types);
                     setFields(fields.map((field) => {
                         switch (field.name) {
                             case 'type_id':
@@ -103,10 +106,44 @@ export default function TicketForm({}) {
             method: 'POST',
             body: data
         })
+            .then(res => res.status)
+            .then(
+                (status) => {
+                    if (status == 201) {
+                        setStep(1);
+                        setFields(initState);
+                    } else {
+                        alert('Что-то пошло не так')
+                    }
+                },
+                (error) => {
+                    alert(error)
+                }
+            )
+    };
+
+    const getTemplate = (type) => {
+
+        fetch(process.env.REACT_APP_API_URL+"/tickets/template?type="+type)
             .then(res => res.json())
             .then(
                 (result) => {
-
+                    setFields(fields.map((field) => {
+                        if (result[field.name]) {
+                            return {
+                                ...field,
+                                value: result[field.name]
+                            }
+                        } else if (field.name === 'type_id') {
+                            return {
+                                ...field,
+                                value: type
+                            }
+                        } else {
+                            return field;
+                        }
+                    } ));
+                    setStep(2);
                 },
                 (error) => {
                     alert(error)
@@ -134,14 +171,28 @@ export default function TicketForm({}) {
                 return <TextareaAutosize value={field.value} onChange={onChange(field.name)} rows={2}/>;
             case 'priority':
                 return <RadioGroup className="priority-btns" name={field.name}>
-                    {field.options.map((option) => <FormControlLabel className="priority-btn" key={option.id} value={option.id} control={<Button onClick={() => onChange(field.name)({target: {value: option.id}})} className={getClass(option.weight)+(field.value === option.id ? " selected" : "")} ><ArrowRightAlt/>{option.title}</Button>} />)}
+                    {field.options.map((option) => <FormControlLabel className="priority-btn" key={option.id} value={option.id} control={<Button onClick={() => onChange(field.name)({target: {value: option.id}})} className={getClass(option.weight)+(field.value == option.id ? " selected" : "")} ><ArrowRightAlt/>{option.title}</Button>} />)}
                 </RadioGroup>;
             default:
                 return <Input value={field.value} onChange={onChange(field.name)} fullWidth={field.fullWidth}/>;
         }
     };
 
-    return <Paper>
+    return step === 1 ? <Paper>
+        <FormControl fullWidth={true}>
+            <FormLabel>Задача</FormLabel>
+            <div className="form-group">
+                {renderField(fields[0])}
+                <Microphone/>
+            </div>
+            <div className="buttons-row">
+                {types.map((type) => <Button className="outlined" key={type.id} onClick={() => getTemplate(type.id)}>{type.title}</Button>)}
+            </div>
+            <div className="center-btn">
+                <Button variant="outlined" onClick={() => setStep(2)}>Показать все поля сразу</Button>
+            </div>
+        </FormControl>
+    </Paper> : <Paper>
         {fields.map((item) =>  <FormControl key={item.name} fullWidth={true}>
             <FormLabel>{item.label}</FormLabel>
             {item.fullWidth ? <div className="form-group">
@@ -153,6 +204,5 @@ export default function TicketForm({}) {
             <Button disableRipple variant="contained" onClick={onSubmit}>Поставить задачу</Button>
             <Button disableRipple variant="outlined">Сохранить как шаблон</Button>
         </div>
-
     </Paper>
 }
