@@ -4,7 +4,7 @@ import React from 'react';
 const palette = {
     primary: { dark: 'rgba(0, 50, 116, 0.82)', main: '#025EA1', light: 'rgba(47, 128, 237, 0.1)' },
     secondary: { main: '#EE7233', light: '#4FC883' },
-    info: { main: '#FEE9D9' },
+    info: { main: '#2F80ED', light: '#EAF2FD' },
     error: { dark: '#EB5757', main: 'rgba(235, 87, 87, .82)', light: 'rgba(235, 87, 87, .1)'},
     warning: { dark: '#F2994A', main: 'rgba(242, 153, 74, .82)', light: 'rgba(242, 153, 74, .1)' },
     success: { dark: '#27AE60', main: 'rgba(39, 174, 96, .82)', light: 'rgba(39, 174, 96, .1)' },
@@ -20,6 +20,14 @@ export const theme = createMuiTheme({
             lineHeight: '32px',
             fontWeight: '700',
             margin: '36px 0 16px',
+            letterSpacing: '.4px'
+        },
+        h3: {
+            fontFamily: 'Fira Sans',
+            fontSize: '18px',
+            lineHeight: '18px',
+            fontWeight: '700',
+            margin: '8px 0 12px',
             letterSpacing: '.4px'
         },
         h6: {
@@ -156,6 +164,18 @@ export const theme = createMuiTheme({
                         color: '#fff',
                     }
                 },
+                '&.error': {
+                    backgroundColor: palette.error.light,
+                    color: palette.error.dark,
+                    '&:hover': {
+                        backgroundColor: palette.error.main,
+                        color: '#fff',
+                    },
+                    '&.selected': {
+                        backgroundColor: palette.error.dark,
+                        color: '#fff',
+                    }
+                },
                 '&.warning': {
                     backgroundColor: palette.warning.light,
                     color: palette.warning.dark,
@@ -203,7 +223,74 @@ export const theme = createMuiTheme({
                 borderRadius: '0px',
                 boxShadow: 'none',
                 padding: '0 32px 32px',
-                maxWidth: '906px'
+                maxWidth: '906px',
+                '&.card': {
+                    padding: '16px 20px',
+                    borderBottom: '1px solid #e5e5e5',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    '&.danger': {
+                        border: '1px solid '+palette.error.dark,
+                        backgroundColor: '#FDEEEE',
+                        '& h3': {
+                            color: palette.error.dark
+                        }
+                    },
+                    '& .priority': {
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '50%',
+                        marginRight: '18px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        '&.danger': {
+                            color: '#fff',
+                            backgroundColor: palette.error.dark
+                        },
+                        '&.error': {
+                            color: palette.error.dark,
+                            backgroundColor: palette.error.light
+                        },
+                        '&.warning': {
+                            color: palette.warning.dark,
+                            backgroundColor: palette.warning.light
+                        },
+                        '&.success': {
+                            color: palette.success.dark,
+                            backgroundColor: palette.success.light
+                        }
+                    },
+                    '& .status': {
+                        borderRadius: '4px',
+                        fontFamily: 'Open Sans',
+                        fontWeight: 700,
+                        padding: '12px 16px',
+                        fontSize: '14px',
+                        lineHeight: '16px',
+                        '&.danger': {
+                            color: '#fff',
+                            backgroundColor: palette.error.dark
+                        },
+                        '&.error': {
+                            color: palette.error.dark,
+                            backgroundColor: palette.error.light
+                        },
+                        '&.warning': {
+                            color: palette.warning.dark,
+                            backgroundColor: palette.warning.light
+                        },
+                        '&.success': {
+                            color: palette.success.dark,
+                            backgroundColor: palette.success.light
+                        },
+                        '&.info': {
+                            color: palette.info.main,
+                            backgroundColor: palette.info.light
+                        }
+                    }
+                }
             }
         },
     },

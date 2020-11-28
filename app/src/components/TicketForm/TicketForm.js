@@ -1,7 +1,19 @@
 import React, {useState, useEffect} from 'react'
-import { Paper, Button, Select, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio, TextareaAutosize, Input, MenuItem} from '@material-ui/core';
+import { Typography, Paper, Button, Select, FormLabel, FormControl, RadioGroup, FormControlLabel, Radio, TextareaAutosize, Input, MenuItem} from '@material-ui/core';
 import { ArrowRightAlt } from '@material-ui/icons';
 import Microphone from './Microphone';
+
+export const getClass = (weight) => {
+    if (weight < 15) {
+        return "success";
+    } else if (weight < 25) {
+        return "warning";
+    } else if (weight < 35) {
+        return "error";
+    } else {
+        return "danger";
+    }
+};
 
 const initState = [
     {
@@ -151,16 +163,6 @@ export default function TicketForm({}) {
             )
     };
 
-    const getClass = (weight) => {
-        if (weight < 15) {
-            return "success";
-        } else if (weight < 25) {
-            return "warning";
-        } else {
-            return "danger"
-        }
-    };
-
     const renderField = (field) => {
         switch (field.type) {
             case 'select':
@@ -178,31 +180,34 @@ export default function TicketForm({}) {
         }
     };
 
-    return step === 1 ? <Paper>
-        <FormControl fullWidth={true}>
-            <FormLabel>Задача</FormLabel>
-            <div className="form-group">
-                {renderField(fields[0])}
-                <Microphone/>
+    return <React.Fragment>
+        <Typography variant="h1">Новая задача</Typography>
+        {step === 1 ? <Paper>
+            <FormControl fullWidth={true}>
+                <FormLabel>Задача</FormLabel>
+                <div className="form-group">
+                    {renderField(fields[0])}
+                    <Microphone/>
+                </div>
+                <div className="buttons-row">
+                    {types.map((type) => <Button className="outlined" key={type.id} onClick={() => getTemplate(type.id)}>{type.title}</Button>)}
+                </div>
+                <div className="center-btn">
+                    <Button variant="outlined" onClick={() => setStep(2)}>Показать все поля сразу</Button>
+                </div>
+            </FormControl>
+        </Paper> : <Paper>
+            {fields.map((item) =>  <FormControl key={item.name} fullWidth={true}>
+                <FormLabel>{item.label}</FormLabel>
+                {item.fullWidth ? <div className="form-group">
+                    {renderField(item)}
+                    <Microphone/>
+                </div> : <div className="form-group-half">{renderField(item)}</div>}
+            </FormControl>)}
+            <div className="form-buttons">
+                <Button disableRipple variant="contained" onClick={onSubmit}>Поставить задачу</Button>
+                <Button disableRipple variant="outlined">Сохранить как шаблон</Button>
             </div>
-            <div className="buttons-row">
-                {types.map((type) => <Button className="outlined" key={type.id} onClick={() => getTemplate(type.id)}>{type.title}</Button>)}
-            </div>
-            <div className="center-btn">
-                <Button variant="outlined" onClick={() => setStep(2)}>Показать все поля сразу</Button>
-            </div>
-        </FormControl>
-    </Paper> : <Paper>
-        {fields.map((item) =>  <FormControl key={item.name} fullWidth={true}>
-            <FormLabel>{item.label}</FormLabel>
-            {item.fullWidth ? <div className="form-group">
-                {renderField(item)}
-                <Microphone/>
-            </div> : <div className="form-group-half">{renderField(item)}</div>}
-        </FormControl>)}
-        <div className="form-buttons">
-            <Button disableRipple variant="contained" onClick={onSubmit}>Поставить задачу</Button>
-            <Button disableRipple variant="outlined">Сохранить как шаблон</Button>
-        </div>
-    </Paper>
+        </Paper>}
+    </React.Fragment>
 }

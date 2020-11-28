@@ -81,3 +81,24 @@ textarea {
   text-align: center;
   border-top: 1px solid #e5e5e5;
 }
+
+.dashboard {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.dashboard .left {
+  max-width: 906px;
+  margin-right: 24px;
+  width: 100%;
+}
+
+.dashboard .right {
+  max-width: 289px;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}

@@ -5,8 +5,10 @@ import { theme } from './theme';
 import Prototype from './components/Prototype/Prototype';
 import {useState, useEffect} from 'react'
 import TicketForm from './components/TicketForm/TicketForm'
+import Dashboard from './components/Dashboard/Dashboard'
 
 function App() {
+  const [screen, setScreen] = useState('home');
 
   return (
     <div className="App">
@@ -15,8 +17,7 @@ function App() {
           <div className="main-body">
               <Prototype type="menu" width="107px"/>
               <Container>
-                <Typography variant="h1">Новая задача</Typography>
-                <TicketForm/>
+                  {screen == 'home' ? <Dashboard goTicket={() => setScreen('ticket')}/> : <TicketForm/>}
               </Container>
           </div>
       </ThemeProvider>
