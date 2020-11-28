@@ -25,7 +25,7 @@ export default function Dashboard({goTicket}) {
     useEffect(() => {
         if (centrifugo) {
             let centrifuge = new Centrifuge(
-                'ws://92.63.103.157:9002/connection/websocket',
+                'wss://soket.final-101-cp2020.ru/connection/websocket',
                 {insecure: true}
             );
 
