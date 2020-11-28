@@ -1,8 +1,12 @@
 import React from 'react'
 
-export default function Prototype({type}) {
-    const images = {
+import header from './header@2.png';
+import menu from './left_menu@2.png';
 
+export default function Prototype({type, width = '100%'}) {
+    const images = {
+        header,
+        menu
     };
-    return <div style={{marginBottom: '24px'}}><img width='100%' src={images[type]}/></div>
+    return <div><img width={width} src={images[type]}/></div>
 }

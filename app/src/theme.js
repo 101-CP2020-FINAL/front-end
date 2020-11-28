@@ -2,10 +2,12 @@ import { Button, createMuiTheme } from '@material-ui/core';
 import React from 'react';
 
 const palette = {
-    primary: { main: '#000', light: '#ddd' },
+    primary: { dark: 'rgba(0, 50, 116, 0.82)', main: '#025EA1', light: 'rgba(47, 128, 237, 0.1)' },
     secondary: { main: '#EE7233', light: '#4FC883' },
     info: { main: '#FEE9D9' },
-    error: { main: '#EE3333' },
+    error: { dark: '#EB5757', main: 'rgba(235, 87, 87, .82)', light: 'rgba(235, 87, 87, .1)'},
+    warning: { dark: '#F2994A', main: 'rgba(242, 153, 74, .82)', light: 'rgba(242, 153, 74, .1)' },
+    success: { dark: '#27AE60', main: 'rgba(39, 174, 96, .82)', light: 'rgba(39, 174, 96, .1)' },
 };
 
 export const theme = createMuiTheme({
@@ -13,9 +15,12 @@ export const theme = createMuiTheme({
     typography: {
         fontFamily: 'Roboto',
         h1: {
-            fontSize: '24px',
-            lineHeight: '24px',
-            fontWeight: '700'
+            fontFamily: 'Fira Sans',
+            fontSize: '32px',
+            lineHeight: '32px',
+            fontWeight: '700',
+            margin: '36px 0 16px',
+            letterSpacing: '.4px'
         },
         h6: {
             fontSize: '16px',
@@ -31,7 +36,7 @@ export const theme = createMuiTheme({
     overrides: {
         MuiContainer: {
             root: {
-                padding: '0 24px',
+                padding: '0 20px',
                 overflowX: 'hidden',
                 '@global': {
                     '*': {
@@ -40,8 +45,8 @@ export const theme = createMuiTheme({
                 },
             },
             maxWidthLg: {
-                '@media (min-width: 1484px)': {
-                    maxWidth: '1440px',
+                '@media (min-width: 1406px)': {
+                    maxWidth: '1366px',
                 }
             }
         },
@@ -51,62 +56,145 @@ export const theme = createMuiTheme({
             }
         },
         MuiLink: {},
-
-        MuiButton: {
-            'outlined': {
-                borderColor: 'rgba(0,0,0,.2)',
-                borderRadius: '4px',
-                padding: '6px 16px',
-                color: '#0470DC',
+        MuiFormLabel: {
+            root: {
+                color: '#000',
+                textTransform: 'uppercase',
+                fontFamily: 'Fira Sans',
                 fontSize: '14px',
+                lineHeight: '14px',
+                fontWeight: '400',
+                margin: '24px 0 8px',
+                letterSpacing: '.4px'
+            }
+        },
+        MuiInput: {
+            formControl: {
+                margin: '0!important',
+                borderRadius: '4px',
+                border: 'none',
+                background: '#f2f2f2',
+                color: '#000',
+                padding: '20px 24px',
+                '&:before': {
+                    display: 'none'
+                },
+                '&:after': {
+                    display: 'none'
+                }
+            }
+        },
+        MuiInputBase: {
+            input: {
+                padding: 0,
+                fontSize: '16px',
+                lineHeight: '24px',
+                fontFamily: 'Open Sans',
+                letterSpacing: '.15px',
+            }
+        },
+        MuiMenuItem: {
+            root: {
+                padding: '12px 24px',
+                fontSize: '16px',
+                lineHeight: '24px',
+                fontFamily: 'Open Sans',
+                letterSpacing: '.15px',
+            }
+        },
+        MuiButton: {
+            root: {
+                border: 'none',
+                borderRadius: '4px',
+                padding: '20px 24px',
+                fontSize: '16px',
                 lineHeight: '16px',
-                fontWeight: '500'
+                fontFamily: 'Open Sans',
+                fontWeight: '700',
+                boxShadow: 'none',
+                outline: 'none',
+
+                '&.rounded': {
+                    borderRadius: "50%!important",
+                    width: '56px'
+                },
+            },
+            text: {
+                border: 'none',
+                borderRadius: '4px',
+                padding: '12px 28px 12px 21px',
+                fontSize: '16px',
+                lineHeight: '16px',
+                fontFamily: 'Open Sans',
+                fontWeight: '400',
+                boxShadow: 'none',
+                outline: 'none',
+                textTransform: 'capitalize',
+                '& svg': {
+                  transform: 'rotate(-90deg)',
+                    marginRight: '13px'
+                },
+                '&.danger': {
+                    backgroundColor: palette.error.light,
+                    color: palette.error.dark,
+                    '&:hover': {
+                        backgroundColor: palette.error.main,
+                        color: '#fff',
+                    },
+                    '&.selected': {
+                        backgroundColor: palette.error.dark,
+                        color: '#fff',
+                    }
+                },
+                '&.warning': {
+                    backgroundColor: palette.warning.light,
+                    color: palette.warning.dark,
+                    '&:hover': {
+                        backgroundColor: palette.warning.main,
+                        color: '#fff',
+                    },
+                    '&.selected': {
+                        backgroundColor: palette.warning.dark,
+                        color: '#fff',
+                    }
+                },
+                '&.success': {
+                    backgroundColor: palette.success.light,
+                    color: palette.success.dark,
+                    '&:hover': {
+                        backgroundColor: palette.success.main,
+                        color: '#fff',
+                    },
+                    '&.selected': {
+                        backgroundColor: palette.success.dark,
+                        color: '#fff',
+                    }
+                }
+            },
+            outlined: {
+                border: 'none',
+                padding: '20px 24px',
+                backgroundColor: palette.primary.light,
+                color: palette.primary.main
+            },
+            contained: {
+                border: 'none',
+                backgroundColor: palette.primary.main,
+                color: '#fff',
+                boxShadow: 'none!important',
+                '&:hover': {
+                    backgroundColor: palette.primary.dark
+                }
             }
         },
 
         MuiPaper: {
             'elevation1': {
-                borderRadius: '4px',
-                boxShadow: 'none'
+                borderRadius: '0px',
+                boxShadow: 'none',
+                padding: '0 32px 32px',
+                maxWidth: '906px'
             }
         },
-        MuiTableRow: {
-            root: {
-                cursor: 'pointer'
-            }
-        },
-        MuiTableCell: {
-            head: {
-                whiteSpace: 'nowrap',
-                backgroundColor: '#F3F6F9',
-                color: '#808182',
-                fontSize: '14px',
-                lineHeight: '20px',
-                fontWeight: '500',
-                padding: '8px',
-                '& > span': {
-                    display: 'block',
-                    fontSize: '12px',
-                    fontWeight: '400'
-                },
-                border: 'none',
-            },
-            body: {
-                padding: '12px',
-                border: 'none',
-                fontSize: '16px',
-                lineHeight: '24px',
-                '& > span': {
-                    display: 'block',
-                    fontSize: '12px',
-                    height: '16px',
-                },
-                '& > svg': {
-                    marginRight: '16px',
-                    verticalAlign: 'middle'
-                },
-                borderBottom: '1px solid #f2f2f2'
-            }
-        }
     },
 });
