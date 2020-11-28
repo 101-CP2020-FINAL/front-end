@@ -134,9 +134,9 @@ export default function TicketForm({}) {
             )
     };
 
-    const getTemplate = (type) => {
+    const getTemplate = (type = null, text = null) => {
 
-        fetch(process.env.REACT_APP_API_URL+"/tickets/template?type="+type)
+        fetch(process.env.REACT_APP_API_URL+"/tickets/template?"+(type ? "type="+type : "text="+text))
             .then(res => res.json())
             .then(
                 (result) => {
@@ -187,7 +187,7 @@ export default function TicketForm({}) {
                 <FormLabel>Задача</FormLabel>
                 <div className="form-group">
                     {renderField(fields[0])}
-                    <Microphone/>
+                    <Microphone onRecord={(text) => getTemplate(null, text)}/>
                 </div>
                 <div className="buttons-row">
                     {types.map((type) => <Button className="outlined" key={type.id} onClick={() => getTemplate(type.id)}>{type.title}</Button>)}
@@ -201,7 +201,7 @@ export default function TicketForm({}) {
                 <FormLabel>{item.label}</FormLabel>
                 {item.fullWidth ? <div className="form-group">
                     {renderField(item)}
-                    <Microphone/>
+                    <Microphone onRecord={(text) => onChange(item.name)({target:{value: text}})}/>
                 </div> : <div className="form-group-half">{renderField(item)}</div>}
             </FormControl>)}
             <div className="form-buttons">

@@ -4,7 +4,7 @@ import { MicNone } from '@material-ui/icons';
 
 import { ReactMic } from 'react-mic';
 
-export default function Microphone() {
+export default function Microphone({onRecord}) {
     const [record, setRecord] = useState(false);
 
     const onData = (recordedBlob) => {
@@ -22,7 +22,9 @@ export default function Microphone() {
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log(result);
+                    if (result.text) {
+                        onRecord(result.text)
+                    }
                 },
                 (error) => {
                     alert(error)
