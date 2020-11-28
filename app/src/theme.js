@@ -124,7 +124,8 @@ export const theme = createMuiTheme({
 
                 '&.rounded': {
                     borderRadius: "50%!important",
-                    width: '56px'
+                    width: '64px',
+                    height: '64px',
                 },
             },
             text: {
@@ -269,6 +270,7 @@ export const theme = createMuiTheme({
                         padding: '12px 16px',
                         fontSize: '14px',
                         lineHeight: '16px',
+                        whiteSpace: 'nowrap',
                         '&.danger': {
                             color: '#fff',
                             backgroundColor: palette.error.dark

@@ -59,7 +59,7 @@ const initState = [
     },
 ];
 
-export default function TicketForm({}) {
+export default function TicketForm({goHome}) {
 
     const [step, setStep] = useState(1);
     const [fields, setFields] = useState(initState);
@@ -92,7 +92,7 @@ export default function TicketForm({}) {
                     alert(error)
                 }
             )
-    }, []);
+    }, [step]);
 
     const onChange = (name) => {
         return (e) => {
@@ -122,8 +122,7 @@ export default function TicketForm({}) {
             .then(
                 (status) => {
                     if (status == 201) {
-                        setStep(1);
-                        setFields(initState);
+                        goHome();
                     } else {
                         alert('Что-то пошло не так')
                     }
@@ -140,22 +139,27 @@ export default function TicketForm({}) {
             .then(res => res.json())
             .then(
                 (result) => {
-                    setFields(fields.map((field) => {
-                        if (result[field.name]) {
-                            return {
-                                ...field,
-                                value: result[field.name]
+                    if (text && Array.isArray(result)) {
+                        alert('Команда не распознана')
+                    } else {
+                        setFields([...fields].map((field) => {
+                            if (result[field.name]) {
+                                return {
+                                    ...field,
+                                    value: result[field.name]
+                                }
+                            } else if (field.name === 'type_id') {
+                                return {
+                                    ...field,
+                                    value: type
+                                }
+                            } else {
+                                return field;
                             }
-                        } else if (field.name === 'type_id') {
-                            return {
-                                ...field,
-                                value: type
-                            }
-                        } else {
-                            return field;
-                        }
-                    } ));
-                    setStep(2);
+                        }));
+                        setStep(2);
+                    }
+                    // if (text)
                 },
                 (error) => {
                     alert(error)

@@ -17,7 +17,7 @@ function App() {
           <div className="main-body">
               <Prototype type="menu" width="107px"/>
               <Container>
-                  {screen == 'home' ? <Dashboard goTicket={() => setScreen('ticket')}/> : <TicketForm/>}
+                  {screen == 'home' ? <Dashboard goTicket={() => setScreen('ticket')}/> : <TicketForm goHome={() => setScreen('home')}/>}
               </Container>
           </div>
       </ThemeProvider>
