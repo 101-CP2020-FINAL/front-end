@@ -6,40 +6,34 @@ import {Add} from '@material-ui/icons';
 
 export default function Dashboard({goTicket}) {
     const [tickets, setTickets] = useState([]);
-    const [centrifugo, setCentrifugo] = useState(false);
+    const [centrifugo, setCentrifugo] = useState(true);
 
     useEffect(() => {
-        fetch(process.env.REACT_APP_API_URL+"/tickets")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setTickets(result);
-                    setCentrifugo(true);
-                },
-                (error) => {
-                    alert(error)
-                }
-            );
+        let centrifuge = new Centrifuge(
+            'wss://soket.final-101-cp2020.ru/connection/websocket',
+            {insecure: true}
+        );
+
+        centrifuge.subscribe("public", (message) => {
+            setCentrifugo(true);
+        });
+
+        centrifuge.connect();
+        setCentrifugo(false);
     }, []);
 
     useEffect(() => {
         if (centrifugo) {
-            let centrifuge = new Centrifuge(
-                'wss://soket.final-101-cp2020.ru/connection/websocket',
-                {insecure: true}
-            );
-
-            centrifuge.subscribe("public", (message) => {
-                let arr = [...tickets, message.data];
-                arr.sort(function (a, b) {
-                    return a.priority.weight > b.priority.weight ? -1 : 1;
-                });
-                setTickets(arr);
-                setCentrifugo(true);
-            });
-
-            centrifuge.connect();
-            setCentrifugo(false);
+            fetch(process.env.REACT_APP_API_URL + "/tickets")
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        setTickets(result.filter((item) => item.status.alias !== 'done'));
+                    },
+                    (error) => {
+                        alert(error)
+                    }
+                );
         }
     }, [centrifugo]);
 
